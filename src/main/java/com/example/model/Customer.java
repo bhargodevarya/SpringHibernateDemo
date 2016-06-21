@@ -1,14 +1,12 @@
 package com.example.model;
 
-import org.hibernate.annotations.GeneratorType;
-
 import javax.persistence.*;
 
 /**
  * Created by 433132 on 6/8/2016.
  */
 
-@Entity
+@Entity(name = "customer")
 public class Customer {
 
     @Id
@@ -20,11 +18,25 @@ public class Customer {
     private String lastName;
     private String email;
 
-    public Customer(String fistName, String lastName, String email) {
+    //@OneToOne
+    //@JoinColumn(name = "ADDRESS_ID")
+    //@PrimaryKeyJoinColumn
+    //private Address address;
+
+    public Customer(String fistName, String lastName, String email/*, Address address*/) {
         this.fistName = fistName;
         this.lastName = lastName;
         this.email = email;
+        /*this.address = address;*/
     }
+
+    /*public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }*/
 
     public Customer() {
     }
