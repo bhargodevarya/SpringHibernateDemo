@@ -1,6 +1,7 @@
 package com.example.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Created by 433132 on 6/8/2016.
@@ -18,10 +19,19 @@ public class Customer {
     private String lastName;
     private String email;
 
-    //@OneToOne
-    //@JoinColumn(name = "ADDRESS_ID")
-    //@PrimaryKeyJoinColumn
-    //private Address address;
+    @Enumerated(EnumType.STRING)
+    private CustomerStatus customerStatus;
+
+    public CustomerStatus getCustomerStatus() {
+        return customerStatus;
+    }
+
+    public void setCustomerStatus(CustomerStatus customerStatus) {
+        this.customerStatus = customerStatus;
+    }
+
+    @OneToMany(mappedBy = "customer")
+    private Set<Address> address;
 
     public Customer(String fistName, String lastName, String email/*, Address address*/) {
         this.fistName = fistName;
@@ -30,13 +40,13 @@ public class Customer {
         /*this.address = address;*/
     }
 
-    /*public Address getAddress() {
+    public Set<Address> getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(Set<Address> address) {
         this.address = address;
-    }*/
+    }
 
     public Customer() {
     }

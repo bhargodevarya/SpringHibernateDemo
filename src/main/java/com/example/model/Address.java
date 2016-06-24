@@ -13,6 +13,7 @@ public class Address {
     @Column(name = "ADDRESS_ID")
     private int id;
 
+    @Column()
     private String addressLine1;
     private String addressLine2;
     private String city;
