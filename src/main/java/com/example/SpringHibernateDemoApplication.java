@@ -1,10 +1,7 @@
 package com.example;
 
-import com.example.dao.AddressDao;
-import com.example.dao.CustomerDao;
-import com.example.model.Address;
-import com.example.model.Customer;
-import com.example.model.CustomerStatus;
+import com.example.dao.*;
+import com.example.model.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -19,7 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.sql.Driver;
-import java.util.Properties;
+import java.util.*;
 
 @SpringBootApplication
 @EnableTransactionManagement
@@ -38,7 +35,7 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
 		//dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 		dataSource.setUrl("jdbc:mysql://localhost:3306/customerDB");
 		dataSource.setUsername("root");
-		dataSource.setPassword("welcome");
+		dataSource.setPassword("root");
 		return  dataSource;
 	}
 
@@ -48,7 +45,7 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
         Properties properties = new Properties();
         properties.put("hibernate.dialect","org.hibernate.dialect.MySQLDialect");
         properties.put("hibernate.show_sql", "true");
-        properties.put("hibernate.hbm2ddl.auto","update");
+        properties.put("hibernate.hbm2ddl.auto","create");
         properties.put("hibernate.current_session_context_class","org.springframework.orm.hibernate5.SpringSessionContext");
 
         StandardServiceRegistryBuilder standardServiceRegistryBuilder = new StandardServiceRegistryBuilder();
@@ -58,6 +55,10 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
         MetadataSources metadataSources = new MetadataSources(standardServiceRegistryBuilder.build());
         metadataSources.addAnnotatedClass(Customer.class);
         metadataSources.addAnnotatedClass(Address.class);
+        metadataSources.addAnnotatedClass(Order.class);
+        metadataSources.addAnnotatedClass(Product.class);
+        metadataSources.addAnnotatedClass(OrderDetail.class);
+        metadataSources.addAnnotatedClass(OrderProduct.class);
 
         return metadataSources.getMetadataBuilder().build().buildSessionFactory();
     }
@@ -70,6 +71,26 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
     @Bean
     public AddressDao addressDao() {
         return new AddressDao();
+    }
+
+    @Bean
+    public OrderDao orderDao() {
+        return new OrderDao();
+    }
+
+    @Bean
+    public OrderProductDao orderProduct() {
+        return new OrderProductDao();
+    }
+
+    @Bean
+    public OrderDetailDao orderDetail() {
+        return new OrderDetailDao();
+    }
+
+    @Bean
+    public ProductDao productDao() {
+        return new ProductDao();
     }
 
     @Bean
@@ -94,8 +115,35 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
         address1.setCustomer(customer);
         address2.setCustomer(customer);
 
+        Product product = new Product("Xiomi latest phone", 11999,"redmi note3","xiomi");
+
+        Order order = new Order();
+        order.setCustomer(customer);
+
+
+        OrderDetail orderDetail = new OrderDetail(new Date(),11999,address1,order);
+        orderDetail.setOrder(order);
+
+        List<Product> productList = new ArrayList<>();
+        productList.add(product);
+        OrderProduct orderProduct =new OrderProduct(productList);
+        orderProduct.setOrder(order);
+
+        Set<OrderProduct> orderProductSet = new HashSet<>();
+        orderProductSet.add(orderProduct);
+
+        order.setOrderProduct(orderProductSet);
+        order.setOrderDetail(orderDetail);
+
         customerDao().saveCustomer(customer);
         addressDao().save(address1);
         addressDao().save(address2);
+
+        productDao().save(product);
+        orderDao().save(order);
+        //orderDetail().save(orderDetail);
+        //orderProduct().save(orderProduct);
+
+
     }
 }

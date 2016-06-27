@@ -12,7 +12,7 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //@GeneratorType()
+    @Column(name = "customer_id")
     private int id;
 
     private String fistName;
@@ -33,11 +33,11 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private Set<Address> address;
 
-    public Customer(String fistName, String lastName, String email/*, Address address*/) {
+    public Customer(String fistName, String lastName, String email, Set<Address> address) {
         this.fistName = fistName;
         this.lastName = lastName;
         this.email = email;
-        /*this.address = address;*/
+        this.address = address;
     }
 
     public Set<Address> getAddress() {
