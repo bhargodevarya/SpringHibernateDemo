@@ -22,11 +22,12 @@ public class OrderProduct {
     //@Column(name = "order_id")
     private Order order;
 
-    @OneToMany
+    @OneToOne
+    //@JoinColumn(name = "prod_id")
     //@Column(name = "product_id")
-    private List<Product> product;
+    private Product product;
 
-    public OrderProduct(/*OrderDetail orderDetail, Order order,*/ List<Product> product) {
+    public OrderProduct(/*OrderDetail orderDetail, Order order,*/ Product product) {
        // this.orderDetail = orderDetail;
         //this.order = order;
         this.product = product;
@@ -59,11 +60,11 @@ public class OrderProduct {
         this.order = order;
     }
 
-    public List<Product> getProduct() {
+    public Product getProduct() {
         return product;
     }
 
-    public void setProduct(List<Product> product) {
+    public void setProduct(Product product) {
         this.product = product;
     }
 }

@@ -35,7 +35,7 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
 		//dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 		dataSource.setUrl("jdbc:mysql://localhost:3306/customerDB");
 		dataSource.setUsername("root");
-		dataSource.setPassword("root");
+		dataSource.setPassword("welcome");
 		return  dataSource;
 	}
 
@@ -56,9 +56,11 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
         metadataSources.addAnnotatedClass(Customer.class);
         metadataSources.addAnnotatedClass(Address.class);
         metadataSources.addAnnotatedClass(Order.class);
-        metadataSources.addAnnotatedClass(Product.class);
         metadataSources.addAnnotatedClass(OrderDetail.class);
+        metadataSources.addAnnotatedClass(Product.class);
         metadataSources.addAnnotatedClass(OrderProduct.class);
+        metadataSources.addAnnotatedClass(Student.class);
+        metadataSources.addAnnotatedClass(School.class);
 
         return metadataSources.getMetadataBuilder().build().buildSessionFactory();
     }
@@ -94,12 +96,37 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
     }
 
     @Bean
+    public StudentDao studentDao() {
+        return new StudentDao();
+    }
+
+    @Bean
+    public SchoolDao schoolDao() {
+        return new SchoolDao();
+    }
+
+    @Bean
     public HibernateTransactionManager hibernateTransactionManager() throws ClassNotFoundException{
         return new HibernateTransactionManager(createSessionFactory());
     }
 
     @Override
     public void run(String... args) throws Exception {
+
+        School school = new School();
+        school.setName("gbps");
+        Student student = new Student();
+        student.setName("amar");
+
+        Set<Student> students = new HashSet<>();
+        students.add(student);
+        school.setStudents(students);
+
+        //student.setSchool(school);
+
+        schoolDao().save(school);
+        studentDao().save(student);
+
         Customer customer = new Customer();
         customer.setFistName("Amar");
         customer.setLastName("Arya");
@@ -112,38 +139,40 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
         Address address2 = new Address("7th Main","New Thippasandra",
                 "bangalore","Karnataka","India",560075);
 
+        Product product = new Product("Xiomi latest phone", 11999,"redmi note3","xiomi");
+        Order order = new Order();
+
+        OrderDetail orderDetail = new OrderDetail();
+        orderDetail.setCost(11999);
+        orderDetail.setOrderDate(new Date());
+
+        OrderProduct orderProduct =new OrderProduct();
+
         address1.setCustomer(customer);
         address2.setCustomer(customer);
 
-        Product product = new Product("Xiomi latest phone", 11999,"redmi note3","xiomi");
+        order.setCustomer(customer);
+        order.setOrderDetail(orderDetail);
 
-        Order order = new Order();
+        List<OrderProduct> orderProductList = new ArrayList<>();
+        orderProductList.add(orderProduct);
+        order.setOrderProduct(orderProductList);
+
         order.setCustomer(customer);
 
+        //orderDetail.setOrder(order);
+        orderDetail.setAddress(address1);
 
-        OrderDetail orderDetail = new OrderDetail(new Date(),11999,address1,order);
-        orderDetail.setOrder(order);
-
-        List<Product> productList = new ArrayList<>();
-        productList.add(product);
-        OrderProduct orderProduct =new OrderProduct(productList);
+        orderProduct.setProduct(product);
         orderProduct.setOrder(order);
-
-        Set<OrderProduct> orderProductSet = new HashSet<>();
-        orderProductSet.add(orderProduct);
-
-        order.setOrderProduct(orderProductSet);
-        order.setOrderDetail(orderDetail);
 
         customerDao().saveCustomer(customer);
         addressDao().save(address1);
         addressDao().save(address2);
 
         productDao().save(product);
+
+        orderDetail().save(orderDetail);
         orderDao().save(order);
-        //orderDetail().save(orderDetail);
-        //orderProduct().save(orderProduct);
-
-
     }
 }

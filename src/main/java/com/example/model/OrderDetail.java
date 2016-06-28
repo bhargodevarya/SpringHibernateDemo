@@ -29,6 +29,7 @@ public class OrderDetail {
     @Column(name = "order_product_id")
     private Set<OrderProductDao> orderProduct;*/
 
+    //mappedBy means that the order table will maintain the FK
     @OneToOne(mappedBy = "orderDetail")
     //@Column(name = "order_id")
     private Order order;

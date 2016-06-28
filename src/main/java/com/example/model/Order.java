@@ -1,6 +1,7 @@
 package com.example.model;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -21,13 +22,13 @@ public class Order {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     //@Column(name = "order_product_id")
-    private Set<OrderProduct> orderProduct;
+    private List<OrderProduct> orderProduct;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     //@Column(name = "order_detail_id")
     private OrderDetail orderDetail;
 
-    public Order(Customer customer, Set<OrderProduct> orderProduct, OrderDetail orderDetail) {
+    public Order(Customer customer, List<OrderProduct> orderProduct, OrderDetail orderDetail) {
         this.customer = customer;
         this.orderProduct = orderProduct;
         this.orderDetail = orderDetail;
@@ -52,11 +53,11 @@ public class Order {
         this.customer = customer;
     }
 
-    public Set<OrderProduct> getOrderProduct() {
+    public List<OrderProduct> getOrderProduct() {
         return orderProduct;
     }
 
-    public void setOrderProduct(Set<OrderProduct> orderProduct) {
+    public void setOrderProduct(List<OrderProduct> orderProduct) {
         this.orderProduct = orderProduct;
     }
 
