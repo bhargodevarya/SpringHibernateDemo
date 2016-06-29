@@ -33,6 +33,17 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private Set<Address> address;
 
+    @OneToMany(mappedBy = "customer")
+    private Set<Order> orders;
+
+    public Set<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Set<Order> orders) {
+        this.orders = orders;
+    }
+
     public Customer(String fistName, String lastName, String email, Set<Address> address) {
         this.fistName = fistName;
         this.lastName = lastName;

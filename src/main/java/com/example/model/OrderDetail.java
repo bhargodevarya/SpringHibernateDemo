@@ -15,14 +15,14 @@ public class OrderDetail {
     @Column(name = "order_details_id")
     private int id;
 
-    //@Column(name = "order_date")
+    @Column(name = "order_date")
     private Date orderDate;
 
     @Column(name = "total_cost")
     private int cost;
 
     @OneToOne
-    //@Column(name = "address_id")
+    //@JoinColumn(name = "address_id")
     private Address address;
 
     /*//@OneToMany(mappedBy = "id")
@@ -31,7 +31,7 @@ public class OrderDetail {
 
     //mappedBy means that the order table will maintain the FK
     @OneToOne(mappedBy = "orderDetail")
-    //@Column(name = "order_id")
+    //@JoinColumn(name = "order_id")
     private Order order;
 
     public OrderDetail(Date orderDate, int cost, Address address, /*Set<OrderProductDao> orderProduct,*/ Order order) {

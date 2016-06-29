@@ -19,11 +19,11 @@ public class OrderProduct {
     private OrderDetail orderDetail;*/
 
     @ManyToOne
-    //@Column(name = "order_id")
+    //@JoinColumn(name = "order_id")
     private Order order;
 
     @OneToOne
-    //@JoinColumn(name = "prod_id")
+    //@JoinColumn(name = "product_id")
     //@Column(name = "product_id")
     private Product product;
 

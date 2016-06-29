@@ -2,10 +2,13 @@ package com.example;
 
 import com.example.dao.*;
 import com.example.model.*;
+import com.example.service.SchoolService;
+import com.example.service.StudentService;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Environment;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,10 +20,17 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 import java.sql.Driver;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @SpringBootApplication
 @EnableTransactionManagement
 public class SpringHibernateDemoApplication implements CommandLineRunner {
+
+    @Autowired
+    private SchoolService schoolService;
+
+    @Autowired
+    private StudentService studentService;
 
 	public static void main(String[] args) {
 
@@ -45,7 +55,7 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
         Properties properties = new Properties();
         properties.put("hibernate.dialect","org.hibernate.dialect.MySQLDialect");
         properties.put("hibernate.show_sql", "true");
-        properties.put("hibernate.hbm2ddl.auto","create");
+        properties.put("hibernate.hbm2ddl.auto","update");
         properties.put("hibernate.current_session_context_class","org.springframework.orm.hibernate5.SpringSessionContext");
 
         StandardServiceRegistryBuilder standardServiceRegistryBuilder = new StandardServiceRegistryBuilder();
@@ -59,8 +69,8 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
         metadataSources.addAnnotatedClass(OrderDetail.class);
         metadataSources.addAnnotatedClass(Product.class);
         metadataSources.addAnnotatedClass(OrderProduct.class);
-        metadataSources.addAnnotatedClass(Student.class);
-        metadataSources.addAnnotatedClass(School.class);
+        /*metadataSources.addAnnotatedClass(Student.class);
+        metadataSources.addAnnotatedClass(School.class);*/
 
         return metadataSources.getMetadataBuilder().build().buildSessionFactory();
     }
@@ -113,19 +123,7 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        School school = new School();
-        school.setName("gbps");
-        Student student = new Student();
-        student.setName("amar");
-
-        Set<Student> students = new HashSet<>();
-        students.add(student);
-        school.setStudents(students);
-
-        //student.setSchool(school);
-
-        schoolDao().save(school);
-        studentDao().save(student);
+        //showStudentsForSchoolId(1);
 
         Customer customer = new Customer();
         customer.setFistName("Amar");
@@ -154,9 +152,10 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
         order.setCustomer(customer);
         order.setOrderDetail(orderDetail);
 
-        List<OrderProduct> orderProductList = new ArrayList<>();
+        /*List<OrderProduct> orderProductList = new ArrayList<>();
         orderProductList.add(orderProduct);
-        order.setOrderProduct(orderProductList);
+        order.setOrderProduct(orderProductList);*/
+        orderProduct.setOrder(order);
 
         order.setCustomer(customer);
 
@@ -174,5 +173,17 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
 
         orderDetail().save(orderDetail);
         orderDao().save(order);
+        orderProduct().saveOrderProduct(orderProduct);
+
+    }
+
+    private void createData() {
+        School school =schoolService.createSchool("gbps");
+        Student student1 =studentService.createStudent("amar",school);
+        Student student2 = studentService.createStudent("om",school);
+    }
+
+    private void showStudentsForSchoolId(int id) {
+        schoolService.getStudentsForSchoolId(id).forEach(System.out::println);
     }
 }

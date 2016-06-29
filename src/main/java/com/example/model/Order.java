@@ -20,12 +20,12 @@ public class Order {
     //@Column(name = "customer_id")
     private Customer customer;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order"/*, cascade = CascadeType.ALL*/)
     //@Column(name = "order_product_id")
     private List<OrderProduct> orderProduct;
 
     @OneToOne
-    //@Column(name = "order_detail_id")
+    //@JoinColumn(name = "order_detail_id")
     private OrderDetail orderDetail;
 
     public Order(Customer customer, List<OrderProduct> orderProduct, OrderDetail orderDetail) {

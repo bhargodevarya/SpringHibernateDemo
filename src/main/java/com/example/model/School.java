@@ -15,7 +15,10 @@ public class School {
 
     private String name;
 
-    @OneToMany(mappedBy = "school", cascade = CascadeType.ALL)
+    /*each student instance needs to be allocated a school.
+    * because of mappedBy, you dont need to assign a school instance all the students.
+    * BUT you need to save both of them separately*/
+    @OneToMany(mappedBy = "school"/*, cascade = CascadeType.ALL*/)
     private Set<Student> students;
 
     public School() {
@@ -43,5 +46,14 @@ public class School {
 
     public void setStudents(Set<Student> students) {
         this.students = students;
+    }
+
+    @Override
+    public String toString() {
+        return "School{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", students=" + students +
+                '}';
     }
 }
