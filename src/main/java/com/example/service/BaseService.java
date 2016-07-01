@@ -25,7 +25,7 @@ public class BaseService<T> implements IService<T> {
     }
 
     @Override
-    //@Transactional
+    @Transactional
     public void create(T t) {
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>> map is ");
         daoMap.entrySet().stream().forEach(n -> System.out.println(n.getKey() + " value is " + n.getValue()));

@@ -28,9 +28,10 @@ public class AbstractDao<T> {
         Session session = null;
         try {
             session = sessionFactory.getCurrentSession();
+            System.out.println("Session is >>>>>>>>>>>>>>>>> " + session);
         } catch(Exception e1) {
-            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> There has been an exception");
-            session = sessionFactory.openSession();
+            //System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>> There has been an exception");
+            //session = sessionFactory.openSession();
         }
         //Transaction transaction = session.beginTransaction();
         session.save(e);

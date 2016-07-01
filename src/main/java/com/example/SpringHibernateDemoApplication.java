@@ -23,7 +23,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @SpringBootApplication
-@EnableTransactionManagement
+@EnableTransactionManagement(proxyTargetClass = true)
 public class SpringHibernateDemoApplication implements CommandLineRunner {
 
     @Autowired
