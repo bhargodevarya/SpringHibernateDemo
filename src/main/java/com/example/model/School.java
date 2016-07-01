@@ -7,7 +7,7 @@ import java.util.Set;
  * Created by 433132 on 6/28/2016.
  */
 @Entity
-public class School {
+public class School implements IDomainModel{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

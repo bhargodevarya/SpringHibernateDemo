@@ -9,7 +9,7 @@ import java.util.Set;
  */
 
 @Entity(name = "customer_order")
-public class Order {
+public class Order implements IDomainModel{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

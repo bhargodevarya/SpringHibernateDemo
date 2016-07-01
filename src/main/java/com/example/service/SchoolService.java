@@ -12,7 +12,7 @@ import java.util.Set;
  * Created by 433132 on 6/29/2016.
  */
 @Component
-public class SchoolService {
+public class SchoolService extends BaseService<School> {
 
     @Autowired
     private SchoolDao schoolDao;
@@ -20,11 +20,12 @@ public class SchoolService {
     public School createSchool(String name) {
         School school = new School();
         school.setName(name);
-        schoolDao.save(school);
+       // schoolDao.saveSchool(school);
+        create(school);
         return school;
     }
 
-    public Set<Student> getStudentsForSchoolId(int id) {
+    /*public Set<Student> getStudentsForSchoolId(int id) {
         return schoolDao.getSchool(id).getStudents();
-    }
+    }*/
 }

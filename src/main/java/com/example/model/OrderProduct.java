@@ -7,7 +7,7 @@ import java.util.List;
  * Created by hadoop on 27/6/16.
  */
 @Entity(name = "order_product")
-public class OrderProduct {
+public class OrderProduct implements IDomainModel{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

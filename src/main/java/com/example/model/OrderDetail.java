@@ -7,7 +7,7 @@ import java.util.Date;
  * Created by hadoop on 27/6/16.
  */
 @Entity(name = "order_details")
-public class OrderDetail {
+public class OrderDetail implements IDomainModel{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -8,7 +8,7 @@ import java.util.Set;
  */
 
 @Entity(name = "customer")
-public class Customer {
+public class Customer implements IDomainModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -6,7 +6,7 @@ import javax.persistence.*;
  * Created by 433132 on 6/24/2016.
  */
 @Entity(name = "product")
-public class Product {
+public class Product implements IDomainModel{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

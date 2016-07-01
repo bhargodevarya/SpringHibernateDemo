@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 public class SchoolDao extends AbstractDao<School> {
 
+    @Transactional
     public void saveSchool(School school) {
         save(school);
     }

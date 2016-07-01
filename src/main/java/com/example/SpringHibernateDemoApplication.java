@@ -29,8 +29,8 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
     @Autowired
     private SchoolService schoolService;
 
-    @Autowired
-    private StudentService studentService;
+    /*@Autowired
+    private StudentService studentService;*/
 
 	public static void main(String[] args) {
 
@@ -63,12 +63,12 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
         standardServiceRegistryBuilder.applySetting(Environment.DATASOURCE,dataSource());
 
         MetadataSources metadataSources = new MetadataSources(standardServiceRegistryBuilder.build());
-        metadataSources.addAnnotatedClass(Customer.class);
+        /*metadataSources.addAnnotatedClass(Customer.class);
         metadataSources.addAnnotatedClass(Address.class);
         metadataSources.addAnnotatedClass(Order.class);
         metadataSources.addAnnotatedClass(OrderDetail.class);
         metadataSources.addAnnotatedClass(Product.class);
-        metadataSources.addAnnotatedClass(OrderProduct.class);
+        metadataSources.addAnnotatedClass(OrderProduct.class);*/
         metadataSources.addAnnotatedClass(Student.class);
         metadataSources.addAnnotatedClass(School.class);
 
@@ -105,7 +105,7 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
         return new ProductDao();
     }
 
-    @Bean
+    /*@Bean
     public StudentDao studentDao() {
         return new StudentDao();
     }
@@ -113,7 +113,7 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
     @Bean
     public SchoolDao schoolDao() {
         return new SchoolDao();
-    }
+    }*/
 
     @Bean
     public HibernateTransactionManager hibernateTransactionManager() throws ClassNotFoundException{
@@ -127,6 +127,9 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
 
         createData();
 
+    }
+
+    private void refactorLater() {
         Customer customer = new Customer();
         customer.setFistName("Amar");
         customer.setLastName("Arya");
@@ -176,16 +179,15 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
         orderDetail().save(orderDetail);
         orderDao().save(order);
         orderProduct().saveOrderProduct(orderProduct);
-
     }
 
     private void createData() {
         School school =schoolService.createSchool("gbps");
-        Student student1 =studentService.createStudent("amar",school);
-        Student student2 = studentService.createStudent("om",school);
+        //Student student1 =studentService.createStudent("amar",school);
+        //Student student2 = studentService.createStudent("om",school);
     }
 
-    private void showStudentsForSchoolId(int id) {
+    /*private void showStudentsForSchoolId(int id) {
         schoolService.getStudentsForSchoolId(id).forEach(System.out::println);
-    }
+    }*/
 }
