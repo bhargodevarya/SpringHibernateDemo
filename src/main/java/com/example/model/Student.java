@@ -15,6 +15,7 @@ public class Student {
     private String name;
 
     @ManyToOne
+    @JoinColumn(name = "school_id")
     private School school;
 
     public Student() {

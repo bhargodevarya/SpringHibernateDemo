@@ -22,6 +22,7 @@ public class Address {
     private int zipCode;
 
     @ManyToOne
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
     public Address(String addressLine1, String addressLine2, String city,

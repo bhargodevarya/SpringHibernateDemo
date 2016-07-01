@@ -13,7 +13,7 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_id")
-    private int id;
+    private int customer_id;
 
     private String fistName;
     private String lastName;
@@ -62,12 +62,12 @@ public class Customer {
     public Customer() {
     }
 
-    public int getId() {
-        return id;
+    public int getCustomer_id() {
+        return customer_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setCustomer_id(int customer_id) {
+        this.customer_id = customer_id;
     }
 
     public String getFistName() {

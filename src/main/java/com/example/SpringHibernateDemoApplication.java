@@ -55,7 +55,7 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
         Properties properties = new Properties();
         properties.put("hibernate.dialect","org.hibernate.dialect.MySQLDialect");
         properties.put("hibernate.show_sql", "true");
-        properties.put("hibernate.hbm2ddl.auto","update");
+        properties.put("hibernate.hbm2ddl.auto","create");
         properties.put("hibernate.current_session_context_class","org.springframework.orm.hibernate5.SpringSessionContext");
 
         StandardServiceRegistryBuilder standardServiceRegistryBuilder = new StandardServiceRegistryBuilder();
@@ -69,8 +69,8 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
         metadataSources.addAnnotatedClass(OrderDetail.class);
         metadataSources.addAnnotatedClass(Product.class);
         metadataSources.addAnnotatedClass(OrderProduct.class);
-        /*metadataSources.addAnnotatedClass(Student.class);
-        metadataSources.addAnnotatedClass(School.class);*/
+        metadataSources.addAnnotatedClass(Student.class);
+        metadataSources.addAnnotatedClass(School.class);
 
         return metadataSources.getMetadataBuilder().build().buildSessionFactory();
     }
@@ -124,6 +124,8 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         //showStudentsForSchoolId(1);
+
+        createData();
 
         Customer customer = new Customer();
         customer.setFistName("Amar");

@@ -2,7 +2,6 @@ package com.example.model;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
 
 /**
  * Created by hadoop on 27/6/16.
@@ -13,7 +12,7 @@ public class OrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_details_id")
-    private int id;
+    private int order_detail_id;
 
     @Column(name = "order_date")
     private Date orderDate;
@@ -22,10 +21,10 @@ public class OrderDetail {
     private int cost;
 
     @OneToOne
-    //@JoinColumn(name = "address_id")
+    @JoinColumn(name = "address_id")
     private Address address;
 
-    /*//@OneToMany(mappedBy = "id")
+    /*//@OneToMany(mappedBy = "order_detail_id")
     @Column(name = "order_product_id")
     private Set<OrderProductDao> orderProduct;*/
 
@@ -45,12 +44,12 @@ public class OrderDetail {
     public OrderDetail() {
     }
 
-    public int getId() {
-        return id;
+    public int getOrder_detail_id() {
+        return order_detail_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setOrder_detail_id(int order_detail_id) {
+        this.order_detail_id = order_detail_id;
     }
 
     public Date getOrderDate() {
