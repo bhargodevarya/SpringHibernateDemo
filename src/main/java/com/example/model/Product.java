@@ -1,6 +1,7 @@
 package com.example.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Created by 433132 on 6/24/2016.
@@ -17,6 +18,17 @@ public class Product implements IDomainModel{
     private int price;
     private String name;
     private String brand;
+
+    @ManyToMany
+    private Set<Supplier> suppliers;
+
+    public Set<Supplier> getSuppliers() {
+        return suppliers;
+    }
+
+    public void setSuppliers(Set<Supplier> suppliers) {
+        this.suppliers = suppliers;
+    }
 
     public Product(String description, int price, String name, String brand) {
         this.description = description;

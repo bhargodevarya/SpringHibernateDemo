@@ -2,8 +2,7 @@ package com.example;
 
 import com.example.dao.*;
 import com.example.model.*;
-import com.example.service.SchoolService;
-import com.example.service.StudentService;
+import com.example.service.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -32,6 +31,15 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
     /*@Autowired
     private StudentService studentService;*/
 
+    @Autowired
+    private SupplierService supplierService;
+
+    @Autowired
+    private SupplierLocationService supplierLocationService;
+
+    @Autowired
+    private ProductService productService;
+
 	public static void main(String[] args) {
 
 		SpringApplication.run(SpringHibernateDemoApplication.class, args);
@@ -45,7 +53,7 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
 		//dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 		dataSource.setUrl("jdbc:mysql://localhost:3306/customerDB");
 		dataSource.setUsername("root");
-		dataSource.setPassword("welcome");
+		dataSource.setPassword("root");
 		return  dataSource;
 	}
 
@@ -67,10 +75,14 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
         metadataSources.addAnnotatedClass(Address.class);
         metadataSources.addAnnotatedClass(Order.class);
         metadataSources.addAnnotatedClass(OrderDetail.class);
-        metadataSources.addAnnotatedClass(Product.class);
-        metadataSources.addAnnotatedClass(OrderProduct.class);*/
+        metadataSources.addAnnotatedClass(OrderProduct.class);
         metadataSources.addAnnotatedClass(Student.class);
-        metadataSources.addAnnotatedClass(School.class);
+        metadataSources.addAnnotatedClass(School.class);*/
+        metadataSources.addAnnotatedClass(Product.class);
+        metadataSources.addAnnotatedClass(Supplier.class);
+        metadataSources.addAnnotatedClass(SupplierLocation.class);
+
+
 
         return metadataSources.getMetadataBuilder().build().buildSessionFactory();
     }
@@ -125,8 +137,9 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
 
         //showStudentsForSchoolId(1);
 
-        createData();
+        //createData();
 
+        createSupplierData();
     }
 
     private void refactorLater() {
@@ -180,6 +193,38 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
         orderDao().save(order);
         orderProduct().saveOrderProduct(orderProduct);
     }
+
+    private void createSupplierData() {
+        Supplier supplier = new Supplier();
+        supplier.setEmail("sup1@gmail.com");
+        supplier.setName("supplier1");
+
+        SupplierLocation supplierLocation = new SupplierLocation();
+        supplierLocation.setSupplier(supplier);
+
+        SupplierAddress supplierAddress = new SupplierAddress();
+        supplierAddress.setAddrLine1("addr1");
+        supplierAddress.setAddrLine2("addr2");
+        supplierAddress.setCity("Bengaluru");
+        supplierAddress.setState("Karnatka");
+        supplierAddress.setZipCode(560075);
+
+        supplierLocation.setSupplierAddress(supplierAddress);
+
+        supplierService.create(supplier);
+        supplierLocationService.create(supplierLocation);
+
+        Product product = new Product("Xiomi latest phone", 11999,"redmi note3","xiomi");
+        Set<Supplier> suppliers = new HashSet<>();
+        suppliers.add(supplier);
+        product.setSuppliers(suppliers);
+
+        productService.saveProduct(product);
+
+
+
+    }
+
 
     private void createData() {
         School school =schoolService.createSchool("gbps");
