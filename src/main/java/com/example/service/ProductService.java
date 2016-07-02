@@ -1,17 +1,17 @@
-package com.example.dao;
+package com.example.service;
 
 import com.example.model.Product;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Created by hadoop on 27/6/16.
+ * Created by hadoop on 2/7/16.
  */
 @Component
-public class ProductDao extends AbstractDao<Product> {
+public class ProductService extends BaseService<Product> {
 
     @Transactional
     public void saveProduct(Product product) {
-        save(product);
+        create(product);
     }
 }
