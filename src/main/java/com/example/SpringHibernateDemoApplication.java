@@ -211,7 +211,7 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
 
         supplierLocation.setSupplierAddress(supplierAddress);
 
-        supplierService.create(supplier);
+        //supplierService.create(supplier);
         supplierLocationService.create(supplierLocation);
 
         Product product = new Product("Xiomi latest phone", 11999,"redmi note3","xiomi");

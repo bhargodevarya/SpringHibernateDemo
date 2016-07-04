@@ -18,6 +18,11 @@ public class Supplier implements IDomainModel {
     @Column(unique = true, nullable = false)
     private String email;
 
+    /**
+     * Since the mappedby property is set, we dont need to set the supplierLocation in the supplier instance.
+     * only, supplierLocation.setSupplier() needs to be invoked.
+     * supplier_id is maintained at the supplier_location table, supplier table doesnot maintain a FK for supplier_location
+     */
     @OneToMany(mappedBy = "supplier")
     private Set<SupplierLocation> supplierLocation;
 

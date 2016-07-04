@@ -16,7 +16,11 @@ public class SupplierLocation implements IDomainModel {
     @Embedded
     private SupplierAddress supplierAddress;
 
-    @ManyToOne
+    /**
+     * SInce cascade type is set, we dont need to save the supplier explicitly.
+     * When the supplierlocation instance gets saved, supplier also gets saved
+     */
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;
 
