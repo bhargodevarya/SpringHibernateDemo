@@ -1,13 +1,16 @@
 package com.example.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 /**
  * Created by 433132 on 6/24/2016.
  */
 @Entity(name = "product")
-public class Product implements IDomainModel{
+@NamedQueries({
+        @NamedQuery(name = "ProductfindAll", query = "from product p")})
+public class Product implements IDomainModel,Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -78,5 +81,17 @@ public class Product implements IDomainModel{
 
     public void setBrand(String brand) {
         this.brand = brand;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "product_id=" + product_id +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", name='" + name + '\'' +
+                ", brand='" + brand + '\'' +
+                ", suppliers=" + suppliers +
+                '}';
     }
 }

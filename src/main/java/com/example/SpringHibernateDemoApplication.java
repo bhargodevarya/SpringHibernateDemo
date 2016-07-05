@@ -63,7 +63,7 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
         Properties properties = new Properties();
         properties.put("hibernate.dialect","org.hibernate.dialect.MySQLDialect");
         properties.put("hibernate.show_sql", "true");
-        properties.put("hibernate.hbm2ddl.auto","create");
+        properties.put("hibernate.hbm2ddl.auto","update");
         properties.put("hibernate.current_session_context_class","org.springframework.orm.hibernate5.SpringSessionContext");
 
         StandardServiceRegistryBuilder standardServiceRegistryBuilder = new StandardServiceRegistryBuilder();
@@ -139,7 +139,9 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
 
         //createData();
 
-        createSupplierData();
+        //createSupplierData();
+
+        productService.getAllProducts().forEach(System.out::println);
     }
 
     private void refactorLater() {

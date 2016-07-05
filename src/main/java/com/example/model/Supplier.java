@@ -78,4 +78,14 @@ public class Supplier implements IDomainModel {
     public void setSupplierLocation(Set<SupplierLocation> supplierLocation) {
         this.supplierLocation = supplierLocation;
     }
+
+    @Override
+    public String toString() {
+        return "Supplier{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", supplierLocation=" + supplierLocation +
+                '}';
+    }
 }

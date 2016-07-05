@@ -43,13 +43,27 @@ public class AbstractDao<T> {
         Session session = sessionFactory.getCurrentSession();
         System.out.println(">>>>>>>>>>>>>>>> " + session.isConnected() + " " + session.isOpen());
         //Transaction transaction = session.beginTransaction();
-        return session.load(clazz,id);
+        return session.get(clazz,id);
+    }
+
+    public void updateEntity(T t) {
+        Session session = sessionFactory.getCurrentSession();
+        session.saveOrUpdate(t);
+    }
+
+    public void deleteEntity(T t) {
+        Session session = sessionFactory.getCurrentSession();
+        session.delete(t);
+    }
+
+    public Session getSession() {
+        return sessionFactory.openSession();
     }
 
     @PostConstruct
     public void register() throws ClassNotFoundException {
         BaseService.getDaoMap().put(((Class<T>) ((ParameterizedType) getClass()
                 .getGenericSuperclass()).getActualTypeArguments()[0]),this);
-        BaseService.getDaoMap().entrySet().stream().forEach(System.out::println);
+        //BaseService.getDaoMap().entrySet().stream().forEach(System.out::println);
     }
 }

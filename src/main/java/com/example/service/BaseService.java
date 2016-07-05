@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.example.dao.AbstractDao;
+import org.hibernate.Session;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,10 @@ public class BaseService<T> implements IService<T> {
     private AbstractDao getDaoForModel(T t) {
         System.out.println("{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{ value being feteched for key " + t.getClass());
         return daoMap.get(t.getClass());
+    }
+
+    protected Session getSession(Class clazz) {
+        return daoMap.get(clazz).getSession();
     }
 
     @Override
