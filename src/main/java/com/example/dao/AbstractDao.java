@@ -13,12 +13,13 @@ import java.lang.reflect.ParameterizedType;
 /**
  * Created by 433132 on 6/8/2016.
  */
+@Transactional
 public class AbstractDao<T> {
 
     @Autowired
     protected SessionFactory sessionFactory;
 
-    @Transactional
+    //@Transactional
     public void save(T e) {
         saveEntity(e);
     }
@@ -39,7 +40,7 @@ public class AbstractDao<T> {
         //session.close();
     }
 
-    @Transactional
+    //@Transactional
     public T getEntity(Class<T> clazz, Serializable id) {
         Session session = sessionFactory.getCurrentSession();
         //System.out.println(">>>>>>>>>>>>>>>> " + session.isConnected() + " " + session.isOpen());
@@ -58,7 +59,7 @@ public class AbstractDao<T> {
     }
 
     public Session getSession() {
-        return sessionFactory.openSession();
+        return sessionFactory.getCurrentSession();
     }
 
     @PostConstruct

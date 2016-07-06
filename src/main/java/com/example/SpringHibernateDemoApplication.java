@@ -9,7 +9,6 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.parsing.Problem;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -62,10 +61,12 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
     public SessionFactory createSessionFactory() throws ClassNotFoundException {
 
         Properties properties = new Properties();
-        properties.put("hibernate.dialect","org.hibernate.dialect.MySQLDialect");
+        properties.put("hibernate.dialect"
+                ,"org.hibernate.dialect.MySQLDialect");
         properties.put("hibernate.show_sql", "true");
-        properties.put("hibernate.hbm2ddl.auto","create");
-        properties.put("hibernate.current_session_context_class","org.springframework.orm.hibernate5.SpringSessionContext");
+        properties.put("hibernate.hbm2ddl.auto","update");
+        properties.put("hibernate.current_session_context_class"
+                ,"org.springframework.orm.hibernate5.SpringSessionContext");
 
         StandardServiceRegistryBuilder standardServiceRegistryBuilder = new StandardServiceRegistryBuilder();
         standardServiceRegistryBuilder.applySettings(properties);
@@ -129,11 +130,14 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
 
         //showStudentsForSchoolId(1);
 
-        refactorLater();
+        //refactorLater();
 
         //List<Product> productList = productService.getProductsForBrand("xiomi");
 
-        createAcademicData();
+        //createAcademicData();
+
+        System.out.println(studentService.getStudentByName("Om"));
+        System.out.println(studentService.getStudentById(1));
     }
 
     private void refactorLater() {
@@ -198,7 +202,7 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
         orderProduct().saveOrderProduct(orderProduct);
     }
 
-    private List<Product> createProducts() {
+    private List<Product> createProducts(){
         return Lists.newArrayList(new Product("Leeco latest phone", 11999,"le 1s", "Letv")
                 ,new Product("Xiomi latest phone", 11999,"redmi note3","xiomi")
                 ,new Product("Samsung latest phone",35000,"J5","Samsung" )
