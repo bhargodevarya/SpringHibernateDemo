@@ -21,7 +21,7 @@ public class BaseService<T> implements IService<T> {
     }
 
     private AbstractDao getDaoForModel(T t) {
-        System.out.println("{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{ value being feteched for key " + t.getClass());
+        //System.out.println("{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{ value being feteched for key " + t.getClass());
         return daoMap.get(t.getClass());
     }
 
@@ -32,9 +32,9 @@ public class BaseService<T> implements IService<T> {
     @Override
     @Transactional
     public void create(T t) {
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>> map is ");
-        daoMap.entrySet().stream().forEach(n -> System.out.println(n.getKey() + " value is " + n.getValue()));
-        System.out.println(getDaoForModel(t));
+        //System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>> map is ");
+        //daoMap.entrySet().stream().forEach(n -> System.out.println(n.getKey() + " value is " + n.getValue()));
+        //System.out.println(getDaoForModel(t));
         getDaoForModel(t).save(t);
 
     }

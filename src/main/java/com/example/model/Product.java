@@ -9,7 +9,8 @@ import java.util.Set;
  */
 @Entity(name = "product")
 @NamedQueries({
-        @NamedQuery(name = "ProductfindAll", query = "from product p")})
+        @NamedQuery(name = "ProductfindAll", query = "from product p"),
+        @NamedQuery(name = "Productfindbrand", query = "from product p where p.brand like :brand")})
 public class Product implements IDomainModel,Serializable{
 
     @Id

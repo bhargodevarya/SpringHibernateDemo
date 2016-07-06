@@ -3,11 +3,13 @@ package com.example;
 import com.example.dao.*;
 import com.example.model.*;
 import com.example.service.*;
+import com.google.common.collect.Lists;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.parsing.Problem;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,7 +21,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 import java.sql.Driver;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @SpringBootApplication
 @EnableTransactionManagement(proxyTargetClass = true)
@@ -28,8 +29,8 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
     @Autowired
     private SchoolService schoolService;
 
-    /*@Autowired
-    private StudentService studentService;*/
+    @Autowired
+    private StudentService studentService;
 
     @Autowired
     private SupplierService supplierService;
@@ -63,7 +64,7 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
         Properties properties = new Properties();
         properties.put("hibernate.dialect","org.hibernate.dialect.MySQLDialect");
         properties.put("hibernate.show_sql", "true");
-        properties.put("hibernate.hbm2ddl.auto","update");
+        properties.put("hibernate.hbm2ddl.auto","create");
         properties.put("hibernate.current_session_context_class","org.springframework.orm.hibernate5.SpringSessionContext");
 
         StandardServiceRegistryBuilder standardServiceRegistryBuilder = new StandardServiceRegistryBuilder();
@@ -71,13 +72,13 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
         standardServiceRegistryBuilder.applySetting(Environment.DATASOURCE,dataSource());
 
         MetadataSources metadataSources = new MetadataSources(standardServiceRegistryBuilder.build());
-        /*metadataSources.addAnnotatedClass(Customer.class);
+        metadataSources.addAnnotatedClass(Customer.class);
         metadataSources.addAnnotatedClass(Address.class);
         metadataSources.addAnnotatedClass(Order.class);
         metadataSources.addAnnotatedClass(OrderDetail.class);
         metadataSources.addAnnotatedClass(OrderProduct.class);
         metadataSources.addAnnotatedClass(Student.class);
-        metadataSources.addAnnotatedClass(School.class);*/
+        metadataSources.addAnnotatedClass(School.class);
         metadataSources.addAnnotatedClass(Product.class);
         metadataSources.addAnnotatedClass(Supplier.class);
         metadataSources.addAnnotatedClass(SupplierLocation.class);
@@ -117,15 +118,6 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
         return new ProductDao();
     }
 
-    /*@Bean
-    public StudentDao studentDao() {
-        return new StudentDao();
-    }
-
-    @Bean
-    public SchoolDao schoolDao() {
-        return new SchoolDao();
-    }*/
 
     @Bean
     public HibernateTransactionManager hibernateTransactionManager() throws ClassNotFoundException{
@@ -137,11 +129,11 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
 
         //showStudentsForSchoolId(1);
 
-        //createData();
+        refactorLater();
 
-        //createSupplierData();
+        //List<Product> productList = productService.getProductsForBrand("xiomi");
 
-        productService.getAllProducts().forEach(System.out::println);
+        createAcademicData();
     }
 
     private void refactorLater() {
@@ -157,7 +149,7 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
         Address address2 = new Address("7th Main","New Thippasandra",
                 "bangalore","Karnataka","India",560075);
 
-        Product product = new Product("Xiomi latest phone", 11999,"redmi note3","xiomi");
+       // Product product = new Product("Xiomi latest phone", 11999,"redmi note3","xiomi");
         Order order = new Order();
 
         OrderDetail orderDetail = new OrderDetail();
@@ -182,21 +174,39 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
         //orderDetail.setOrder(order);
         orderDetail.setAddress(address1);
 
-        orderProduct.setProduct(product);
+        Set<Supplier> supplierSet = createSupplierData();
+        List<Product> productList = createProducts();
+
+        productList.stream().forEach(n -> {
+            n.setSuppliers(supplierSet);
+            productService.saveProduct(n);
+        });
+
+        orderProduct.setProduct(productList.get(1));
         orderProduct.setOrder(order);
 
         customerDao().saveCustomer(customer);
         addressDao().save(address1);
         addressDao().save(address2);
 
-        productDao().save(product);
+        //createSupplierData(product);
+
+        //productDao().save(product);
 
         orderDetail().save(orderDetail);
         orderDao().save(order);
         orderProduct().saveOrderProduct(orderProduct);
     }
 
-    private void createSupplierData() {
+    private List<Product> createProducts() {
+        return Lists.newArrayList(new Product("Leeco latest phone", 11999,"le 1s", "Letv")
+                ,new Product("Xiomi latest phone", 11999,"redmi note3","xiomi")
+                ,new Product("Samsung latest phone",35000,"J5","Samsung" )
+                ,new Product("Apple latest phone", 85000,"iphone7","Apple")
+                ,new Product("Oneplus latest phone", 30000,"One plus","Oneplus" ));
+    }
+
+    private Set<Supplier> createSupplierData() {
         Supplier supplier = new Supplier();
         supplier.setEmail("sup1@gmail.com");
         supplier.setName("supplier1");
@@ -216,22 +226,21 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
         //supplierService.create(supplier);
         supplierLocationService.create(supplierLocation);
 
-        Product product = new Product("Xiomi latest phone", 11999,"redmi note3","xiomi");
+        //Product product = new Product("Xiomi latest phone", 11999,"redmi note3","xiomi");
         Set<Supplier> suppliers = new HashSet<>();
         suppliers.add(supplier);
-        product.setSuppliers(suppliers);
+        //product.setSuppliers(suppliers);
 
-        productService.saveProduct(product);
+        //productService.saveProduct(product);
 
-
-
+        return suppliers;
     }
 
 
-    private void createData() {
+    private void createAcademicData() {
         School school =schoolService.createSchool("gbps");
-        //Student student1 =studentService.createStudent("amar",school);
-        //Student student2 = studentService.createStudent("om",school);
+        Student student1 =studentService.createStudent("amar",school);
+        Student student2 = studentService.createStudent("om",school);
     }
 
     /*private void showStudentsForSchoolId(int id) {

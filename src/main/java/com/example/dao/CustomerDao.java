@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public class CustomerDao extends AbstractDao<Customer>{
 
-    //@Transactional
+    @Transactional
     public void saveCustomer(Customer customer) {
         save(customer);
     }
