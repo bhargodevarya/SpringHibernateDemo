@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.dao.ProductDao;
 import com.example.model.Product;
 import org.hibernate.Query;
 import org.springframework.stereotype.Component;
@@ -11,14 +12,17 @@ import java.util.List;
  * Created by hadoop on 2/7/16.
  */
 @Component
+@Transactional
 public class ProductService extends BaseService<Product> {
 
-    @Transactional
+
+
+    //@Transactional
     public void saveProduct(Product product) {
         create(product);
     }
 
-    @Transactional
+    //@Transactional
     public List<Product> getAllProducts() {
         return getSession(Product.class).getNamedQuery("ProductfindAll").list();
     }
@@ -28,10 +32,15 @@ public class ProductService extends BaseService<Product> {
      * @param brand
      * @return
      */
-    @Transactional
+    //@Transactional
     public List<Product> getProductsForBrand(String brand) {
         Query query = getSession(Product.class).getNamedQuery("Productfindbrand");
         query.setParameter("brand","%"+brand+"%");
         return query.list();
+    }
+
+    public List<Product> getProductsUsingCriteria() {
+        ProductDao productDao = (ProductDao) getDaoMap().get(Product.class);
+        return productDao.getProductsFor();
     }
 }

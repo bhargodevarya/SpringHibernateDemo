@@ -63,7 +63,7 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
         Properties properties = new Properties();
         properties.put("hibernate.dialect"
                 ,"org.hibernate.dialect.MySQLDialect");
-        properties.put("hibernate.show_sql", "true");
+        properties.put("hibernate.show_sql", "false");
         properties.put("hibernate.hbm2ddl.auto","update");
         properties.put("hibernate.current_session_context_class"
                 ,"org.springframework.orm.hibernate5.SpringSessionContext");
@@ -137,7 +137,7 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
         //createAcademicData();
 
         System.out.println(studentService.getStudentByName("Om"));
-        System.out.println(studentService.getStudentById(1));
+        System.out.println(productService.getProductsUsingCriteria());
     }
 
     private void refactorLater() {

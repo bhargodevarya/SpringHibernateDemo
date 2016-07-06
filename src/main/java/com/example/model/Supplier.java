@@ -23,7 +23,7 @@ public class Supplier implements IDomainModel {
      * only, supplierLocation.setSupplier() needs to be invoked.
      * supplier_id is maintained at the supplier_location table, supplier table doesnot maintain a FK for supplier_location
      */
-    @OneToMany(mappedBy = "supplier")
+    @OneToMany(mappedBy = "supplier", fetch = FetchType.EAGER)
     private Set<SupplierLocation> supplierLocation;
 
     @ManyToMany(mappedBy = "suppliers")
