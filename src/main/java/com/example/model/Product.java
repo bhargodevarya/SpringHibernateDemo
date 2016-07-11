@@ -2,6 +2,7 @@ package com.example.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -94,5 +95,19 @@ public class Product implements IDomainModel,Serializable{
                 ", brand='" + brand + '\'' +
                 ", suppliers=" + suppliers +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return getProduct_id() == product.getProduct_id() &&
+                Objects.equals(getBrand(), product.getBrand());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getProduct_id(), getBrand());
     }
 }
