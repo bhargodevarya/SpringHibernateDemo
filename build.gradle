@@ -37,6 +37,8 @@ dependencies {
 	// https://mvnrepository.com/artifact/com.google.guava/guava
 	compile group: 'com.google.guava', name: 'guava', version: '19.0'
 	runtime('mysql:mysql-connector-java')
+	compile('org.springframework.boot:spring-boot-starter-web')
+    runtime('mysql:mysql-connector-java')
 	testCompile('org.springframework.boot:spring-boot-starter-test') 
 }
 

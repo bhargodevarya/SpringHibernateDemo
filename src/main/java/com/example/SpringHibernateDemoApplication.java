@@ -13,9 +13,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.MediaType;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import javax.sql.DataSource;
 import java.sql.Driver;
@@ -23,7 +26,7 @@ import java.util.*;
 
 @SpringBootApplication
 @EnableTransactionManagement(proxyTargetClass = true)
-public class SpringHibernateDemoApplication implements CommandLineRunner {
+public class SpringHibernateDemoApplication extends WebMvcConfigurerAdapter implements CommandLineRunner {
 
     @Autowired
     private SchoolService schoolService;
@@ -123,6 +126,19 @@ public class SpringHibernateDemoApplication implements CommandLineRunner {
     @Bean
     public HibernateTransactionManager hibernateTransactionManager() throws ClassNotFoundException{
         return new HibernateTransactionManager(createSessionFactory());
+    }
+
+    @Override
+    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+        // TODO Auto-generated method stub
+        configurer.favorPathExtension(false).
+                favorParameter(true).
+                parameterName("mediaType").
+                ignoreAcceptHeader(true).
+                useJaf(false).
+                defaultContentType(MediaType.APPLICATION_JSON).
+                mediaType("xml", MediaType.APPLICATION_XML).
+                mediaType("json", MediaType.APPLICATION_JSON);
     }
 
     @Override
