@@ -4,6 +4,7 @@ import com.example.dao.*;
 import com.example.interceptor.UserInterceptor;
 import com.example.model.*;
 import com.example.service.*;
+import com.example.validator.PersonValidator;
 import com.google.common.collect.Lists;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -19,6 +20,9 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.validation.Validator;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -141,6 +145,11 @@ public class SpringHibernateDemoApplication extends WebMvcConfigurerAdapter impl
         return new UserInterceptor();
     }
 
+    @Bean
+    public Validator validator() {
+        return new PersonValidator();
+    }
+
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
         // TODO Auto-generated method stub
@@ -171,8 +180,8 @@ public class SpringHibernateDemoApplication extends WebMvcConfigurerAdapter impl
 
         //createAcademicData();
 
-        System.out.println(studentService.getStudentByName("Om"));
-        System.out.println(productService.getProductsUsingCriteria());
+       // System.out.println(studentService.getStudentByName("Om"));
+       // System.out.println(productService.getProductsUsingCriteria());
     }
 
     private void refactorLater() {

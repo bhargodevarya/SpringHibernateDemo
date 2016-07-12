@@ -1,5 +1,6 @@
 package com.example.model;
 
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -10,10 +11,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Person {
 
     //@XmlElement
+    //@NotNull
     private String name;
     //@XmlElement
     private int age;
     private String email;
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                ", email='" + email + '\'' +
+                '}';
+    }
 
     public String getName() {
         return name;
