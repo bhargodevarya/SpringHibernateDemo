@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@RestController("person")
+@RestController
+@RequestMapping("/person")
 public class PersonController {
 
     @Autowired
@@ -21,7 +22,7 @@ public class PersonController {
         webDataBinder.addValidators(validator);
     }
 	
-	@RequestMapping(name = "getperson",method = RequestMethod.GET
+	@RequestMapping(value = "/fetchperson",method = RequestMethod.GET
 			/*, produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE}*/)
 	public Person getPerson() {
 		Person p = new Person();
@@ -32,7 +33,7 @@ public class PersonController {
 		return p;
 	}
 
-    @RequestMapping(name = "test",method = RequestMethod.POST)
+    @RequestMapping(value = "/test",method = RequestMethod.POST)
     public void createPerson(@Valid @RequestBody Person person) {
         System.out.println(person);
         System.out.println(">>>>>>>>>>>>>>>>>POSTED<<<<<<<<<<<<<");
