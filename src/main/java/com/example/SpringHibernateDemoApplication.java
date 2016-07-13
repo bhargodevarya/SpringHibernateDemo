@@ -68,7 +68,7 @@ public class SpringHibernateDemoApplication extends WebMvcConfigurerAdapter impl
 		//dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 		dataSource.setUrl("jdbc:mysql://localhost:3306/customerDB");
 		dataSource.setUsername("root");
-		dataSource.setPassword("root");
+		dataSource.setPassword("welcome");
 		return  dataSource;
 	}
 
@@ -165,8 +165,8 @@ public class SpringHibernateDemoApplication extends WebMvcConfigurerAdapter impl
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(handlerInterceptorAdapter());
-        super.addInterceptors(registry);
+        registry.addInterceptor(handlerInterceptorAdapter()).addPathPatterns("/person/test");
+        //super.addInterceptors(registry);
     }
 
     @Override
