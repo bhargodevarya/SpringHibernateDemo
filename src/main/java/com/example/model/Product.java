@@ -1,6 +1,11 @@
 package com.example.model;
 
+import org.hibernate.annotations.*;
+
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
@@ -9,6 +14,7 @@ import java.util.Set;
  * Created by 433132 on 6/24/2016.
  */
 @Entity(name = "product")
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE,region = "product")
 @NamedQueries({
         @NamedQuery(name = "ProductfindAll", query = "from product p"),
         @NamedQuery(name = "Productfindbrand", query = "from product p where p.brand like :brand")})

@@ -82,6 +82,8 @@ public class SpringHibernateDemoApplication extends WebMvcConfigurerAdapter impl
         properties.put("hibernate.hbm2ddl.auto","update");
         properties.put("hibernate.current_session_context_class"
                 ,"org.springframework.orm.hibernate5.SpringSessionContext");
+        properties.put("hibernate.cache.use_second_level_cache","true");
+        properties.put("hibernate.cache.region.factory_class","org.hibernate.cache.ehcache.EhCacheRegionFactory");
 
         StandardServiceRegistryBuilder standardServiceRegistryBuilder = new StandardServiceRegistryBuilder();
         standardServiceRegistryBuilder.applySettings(properties);
