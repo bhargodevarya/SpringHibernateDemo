@@ -1,5 +1,10 @@
 package com.example;
 
+import com.couchbase.client.java.Bucket;
+import com.couchbase.client.java.Cluster;
+import com.couchbase.client.java.CouchbaseCluster;
+import com.couchbase.client.spring.cache.CacheBuilder;
+import com.couchbase.client.spring.cache.CouchbaseCacheManager;
 import com.example.dao.*;
 import com.example.interceptor.UserInterceptor;
 import com.example.model.*;
@@ -14,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -55,6 +61,9 @@ public class SpringHibernateDemoApplication extends WebMvcConfigurerAdapter impl
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private BookService bookService;
+
 	public static void main(String[] args) {
 
 		SpringApplication.run(SpringHibernateDemoApplication.class, args);
@@ -68,7 +77,7 @@ public class SpringHibernateDemoApplication extends WebMvcConfigurerAdapter impl
 		//dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 		dataSource.setUrl("jdbc:mysql://localhost:3306/customerDB");
 		dataSource.setUsername("root");
-		dataSource.setPassword("welcome");
+		dataSource.setPassword("root");
 		return  dataSource;
 	}
 
@@ -184,6 +193,26 @@ public class SpringHibernateDemoApplication extends WebMvcConfigurerAdapter impl
 
        // System.out.println(studentService.getStudentByName("Om"));
        // System.out.println(productService.getProductsUsingCriteria());
+        System.out.println(bookService.getBookByTitle());
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..");
+        System.out.println(bookService.getBookByTitle());
+
+    }
+
+    @Bean(destroyMethod = "disconnect")
+    public Cluster cluster() {
+        return CouchbaseCluster.create();
+    }
+
+    @Bean(destroyMethod = "close")
+    public Bucket bucket() {
+        return cluster().openBucket("default");
+    }
+
+    @Bean
+    public CacheManager cacheManager() {
+        CacheBuilder.newInstance(bucket()).build("book");
+        return new CouchbaseCacheManager(CacheBuilder.newInstance(bucket()),"default");
     }
 
     private void refactorLater() {
