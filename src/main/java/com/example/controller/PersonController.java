@@ -23,7 +23,9 @@ public class PersonController {
     public void initBinder(WebDataBinder webDataBinder) {
         webDataBinder.addValidators(validator);
     }
-	
+
+
+    //http://localhost:8080/person/fetchperson?mediaType=json
 	@RequestMapping(value = "/fetchperson",method = RequestMethod.GET
 			/*, produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE}*/)
 	public Person getPerson() {
@@ -34,6 +36,12 @@ public class PersonController {
 
 		return p;
 	}
+
+    /**
+     * http://localhost:8080/person/test
+     * Since we are not returning anything, mediaType request param is not needed
+     * @param person
+     */
 
     @RequestMapping(value = "/test",method = RequestMethod.POST)
     public void createPerson(@Valid @RequestBody Person person) {

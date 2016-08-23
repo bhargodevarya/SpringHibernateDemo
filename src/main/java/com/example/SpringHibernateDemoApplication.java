@@ -181,6 +181,11 @@ public class SpringHibernateDemoApplication extends WebMvcConfigurerAdapter impl
     }
 
     @Override
+    public Validator getValidator() {
+        return validator();
+    }
+
+    @Override
     public void run(String... args) throws Exception {
 
         //showStudentsForSchoolId(1);
