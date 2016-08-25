@@ -27,19 +27,15 @@ import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.Validator;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import javax.sql.DataSource;
 import java.sql.Driver;
 import java.util.*;
+import java.util.concurrent.Callable;
 
 @SpringBootApplication
 @EnableTransactionManagement(proxyTargetClass = true)
@@ -198,6 +194,7 @@ public class SpringHibernateDemoApplication extends WebMvcConfigurerAdapter impl
 
        // System.out.println(studentService.getStudentByName("Om"));
        // System.out.println(productService.getProductsUsingCriteria());
+
         System.out.println(bookService.getBookByTitle());
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..");
         System.out.println(bookService.getBookByTitle());

@@ -1,6 +1,7 @@
 package com.example.model;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 
 /**
@@ -28,6 +29,17 @@ public class Supplier implements IDomainModel {
 
     @ManyToMany(mappedBy = "suppliers")
     private Set<Product> products;
+
+    @Version
+    private Long version;
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
 
     public Set<Product> getProducts() {
         return products;
